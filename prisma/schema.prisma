@@ -14,13 +14,15 @@ model User {
   id             String    @id @default(uuid())
   username       String    @unique
   name           String
+  bio            String?
   email          String?   @unique
   email_verified DateTime?
   avatar_url     String?
   created_at     DateTime  @default(now())
 
-  Account Account[]
-  Session Session[]
+  Account       Account[]
+  Session       Session[]
+  timeIntervals UserTimeInterval[]
 
   @@map("users")
 }
@@ -53,4 +55,16 @@ model Session {
   user          User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
 
   @@map("sessions")
+}
+
+model UserTimeInterval {
+  id                    String @id @default(cuid())
+  week_day              Int
+  time_start_in_minutes Int
+  time_end_in_minutes   Int
+
+  user    User   @relation(fields: [user_id], references: [id])
+  user_id String
+
+  @@map("user_time_intervals")
 }
