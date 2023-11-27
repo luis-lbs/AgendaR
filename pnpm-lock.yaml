@@ -30,7 +30,7 @@ dependencies:
     specifier: ^1.2.1
     version: 1.6.2
   dayjs:
-    specifier: ^1.11.7
+    specifier: ^1.11.10
     version: 1.11.10
   eslint:
     specifier: 8.29.0
