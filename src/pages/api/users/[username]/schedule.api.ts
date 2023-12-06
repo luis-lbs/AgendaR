@@ -1,9 +1,9 @@
-import { NextApiRequest, NextApiResponse } from 'next'
-import { prisma } from '../../../../lib/prisma'
-import { z } from 'zod'
 import dayjs from 'dayjs'
 import { google } from 'googleapis'
-import { getGoogleOAuthToken } from '@/lib/google'
+import { NextApiRequest, NextApiResponse } from 'next'
+import { z } from 'zod'
+import { getGoogleOAuthToken } from '../../../../lib/google'
+import { prisma } from '../../../../lib/prisma'
 
 export default async function handler(
   req: NextApiRequest,
@@ -27,7 +27,7 @@ export default async function handler(
 
   const createSchedulingBody = z.object({
     name: z.string(),
-    email: z.string(),
+    email: z.string().email(),
     observations: z.string(),
     date: z.string().datetime(),
   })
@@ -36,10 +36,13 @@ export default async function handler(
     req.body,
   )
 
-  const schedulingDate = dayjs(date).startOf('hour').subtract(3, 'hour')
+  const schedulingDate = dayjs(date).startOf('hour')
 
-  if (schedulingDate.isBefore(new Date()))
-    return res.status(400).json({ message: 'Date is in the past.' })
+  if (schedulingDate.isBefore(new Date())) {
+    return res.status(400).json({
+      message: 'Date is in the past.',
+    })
+  }
 
   const conflictingScheduling = await prisma.scheduling.findFirst({
     where: {
@@ -48,10 +51,11 @@ export default async function handler(
     },
   })
 
-  if (conflictingScheduling)
-    return res
-      .status(400)
-      .json({ message: 'There is another scheduling at the same time' })
+  if (conflictingScheduling) {
+    return res.status(400).json({
+      message: 'There is another scheduling at at the same time.',
+    })
+  }
 
   const scheduling = await prisma.scheduling.create({
     data: {
@@ -72,7 +76,7 @@ export default async function handler(
     calendarId: 'primary',
     conferenceDataVersion: 1,
     requestBody: {
-      summary: `AgendaR: ${name}`,
+      summary: `Ignite Call: ${name}`,
       description: observations,
       start: {
         dateTime: schedulingDate.format(),
@@ -80,12 +84,7 @@ export default async function handler(
       end: {
         dateTime: schedulingDate.add(1, 'hour').format(),
       },
-      attendees: [
-        {
-          email,
-          displayName: name,
-        },
-      ],
+      attendees: [{ email, displayName: name }],
       conferenceData: {
         createRequest: {
           requestId: scheduling.id,
