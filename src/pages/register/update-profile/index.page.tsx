@@ -18,6 +18,7 @@ import { getServerSession } from 'next-auth'
 import { buildNextAuthOptions } from '@/pages/api/auth/[...nextauth].api'
 import { api } from '@/lib/axios'
 import { useRouter } from 'next/router'
+import { NextSeo } from 'next-seo'
 
 const UpdateProfileSchema = z.object({
   bio: z.string(),
@@ -46,39 +47,43 @@ export default function UpdateProfile(props: any) {
   }
 
   return (
-    <Container>
-      <Header>
-        <Heading as="strong">Bem-vindo ao AgendaR!</Heading>
-        <Text>
-          Precisamos de algumas informações para criar seu perfil! ah, você pode
-          editar essas informações depois.
-        </Text>
-        <MultiStep size={4} currentStep={4} />
-      </Header>
+    <>
+      <NextSeo title="Atualize seu perfil | AgendaR" noindex />
 
-      <Form as="form" onSubmit={handleSubmit(handleUpdateProfile)}>
-        <label>
-          <Text size="sm">Foto de perfil</Text>
-          <Avatar
-            src={session.data?.user.avatar_url}
-            alt={session.data?.user.name}
-          />
-        </label>
+      <Container>
+        <Header>
+          <Heading as="strong">Bem-vindo ao AgendaR!</Heading>
+          <Text>
+            Precisamos de algumas informações para criar seu perfil! ah, você
+            pode editar essas informações depois.
+          </Text>
+          <MultiStep size={4} currentStep={4} />
+        </Header>
 
-        <label>
-          <Text size="sm">Sobre você</Text>
-          <TextArea
-            placeholder="Software Enginer @Google"
-            {...register('bio')}
-            {...props}
-          />
-          <FormAnnotation size="sm">Fale um pouco sobre você</FormAnnotation>
-        </label>
-        <Button type="submit" disabled={isSubmitting}>
-          Finalizar <ArrowRight />
-        </Button>
-      </Form>
-    </Container>
+        <Form as="form" onSubmit={handleSubmit(handleUpdateProfile)}>
+          <label>
+            <Text size="sm">Foto de perfil</Text>
+            <Avatar
+              src={session.data?.user.avatar_url}
+              alt={session.data?.user.name}
+            />
+          </label>
+
+          <label>
+            <Text size="sm">Sobre você</Text>
+            <TextArea
+              placeholder="Software Enginer @Google"
+              {...register('bio')}
+              {...props}
+            />
+            <FormAnnotation size="sm">Fale um pouco sobre você</FormAnnotation>
+          </label>
+          <Button type="submit" disabled={isSubmitting}>
+            Finalizar <ArrowRight />
+          </Button>
+        </Form>
+      </Container>
+    </>
   )
 }
 

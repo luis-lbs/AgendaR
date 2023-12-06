@@ -4,6 +4,7 @@ import { GetStaticPaths, GetStaticProps } from 'next'
 import { prisma } from '@/lib/prisma'
 import CalendarStep from './ScheduleForm/CalendarStep'
 import ScheduleForm from './ScheduleForm'
+import { NextSeo } from 'next-seo'
 
 interface ScheduleProps {
   user: {
@@ -16,15 +17,18 @@ interface ScheduleProps {
 export default function Schedule({ user }: ScheduleProps) {
   const { name, bio, avatarUrl } = user
   return (
-    <Container>
-      <UserHeader>
-        <Avatar src={avatarUrl} alt={name} />
-        <Heading>{name}</Heading>
-        <Text>{bio}</Text>
-      </UserHeader>
+    <>
+      <NextSeo title={`Agendar com ${name} | AgendaR`} />
+      <Container>
+        <UserHeader>
+          <Avatar src={avatarUrl} alt={name} />
+          <Heading>{name}</Heading>
+          <Text>{bio}</Text>
+        </UserHeader>
 
-      <ScheduleForm />
-    </Container>
+        <ScheduleForm />
+      </Container>
+    </>
   )
 }
 

@@ -24,6 +24,7 @@ import {
   IntervalItem,
 } from './styles'
 import { api } from '@/lib/axios'
+import { NextSeo } from 'next-seo'
 
 const timeIntervalsFormSchema = z.object({
   intervals: z
@@ -107,6 +108,8 @@ export default function TimeIntervals(props: any) {
 
   return (
     <>
+      <NextSeo title="Selecione sua disponibilidade | AgendaR" noindex />
+
       <Container>
         <Header>
           <Heading as="strong">Quase lá</Heading>
