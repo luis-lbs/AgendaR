@@ -27,7 +27,7 @@ export default async function handler(
     return res.status(400).json({ message: 'User does not exist.' })
   }
 
-  const referenceDate = dayjs(String(date)).subtract(2, 'hour')
+  const referenceDate = dayjs(String(date)).add(2, 'hour')
   const isPastDate = referenceDate.endOf('day').isBefore(new Date())
 
   if (isPastDate) {
