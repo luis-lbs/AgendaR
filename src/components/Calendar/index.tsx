@@ -68,7 +68,7 @@ export function Calendar({ onDateSelected, selectedDate }: CalendarProps) {
     async () => {
       const response = await api.get(`/users/${username}/availability`, {
         params: {
-          date: dayjs().subtract(3, 'hour').startOf('day').format('YYYY-MM-DD'), // subtraindo 3 horas do dia para conpensar o servidor
+          date: dayjs().format('YYYY-MM-DD'),
         },
       })
 
