@@ -2,6 +2,7 @@ import { Calendar } from '@/components/Calendar'
 import {
   Container,
   TimePicker,
+  TimePickerContainer,
   TimePickerHeader,
   TimePickerItem,
   TimePickerList,
@@ -65,25 +66,27 @@ export default function CalendarStep({ onSelectDateTime }: CalendarStepProps) {
       <Calendar selectedDate={selectedDate} onDateSelected={setSelectedDate} />
 
       {isDateSelected && (
-        <TimePicker>
-          <TimePickerHeader>
-            {weekDay} <span>{describedDate}</span>
-          </TimePickerHeader>
-          <TimePickerList>
-            {availability !== null &&
-              availability?.possibleTimes.map((hour) => {
-                return (
-                  <TimePickerItem
-                    key={hour}
-                    disabled={!availability.availableTimes.includes(hour)}
-                    onClick={() => handleSelectTime(hour)}
-                  >
-                    {String(hour).padStart(2, '0')}:00h
-                  </TimePickerItem>
-                )
-              })}
-          </TimePickerList>
-        </TimePicker>
+        <TimePickerContainer onClick={() => setSelectedDate(null)}>
+          <TimePicker>
+            <TimePickerHeader>
+              {weekDay} <span>{describedDate}</span>
+            </TimePickerHeader>
+            <TimePickerList>
+              {availability !== null &&
+                availability?.possibleTimes.map((hour) => {
+                  return (
+                    <TimePickerItem
+                      key={hour}
+                      disabled={!availability.availableTimes.includes(hour)}
+                      onClick={() => handleSelectTime(hour)}
+                    >
+                      {String(hour).padStart(2, '0')}:00h
+                    </TimePickerItem>
+                  )
+                })}
+            </TimePickerList>
+          </TimePicker>
+        </TimePickerContainer>
       )}
     </Container>
   )

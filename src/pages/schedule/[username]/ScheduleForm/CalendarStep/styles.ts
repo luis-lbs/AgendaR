@@ -5,6 +5,7 @@ export const Container = styled(Box, {
   padding: 0,
   display: 'grid',
   position: 'relative',
+  overflow: 'hidden',
 
   variants: {
     isTimePickerOpen: {
@@ -16,17 +17,30 @@ export const Container = styled(Box, {
         },
       },
       false: {
-        width: 540,
+        maxWidth: 540,
         gridTemplateColumns: '1fr',
       },
     },
   },
 })
 
+export const TimePickerContainer = styled('div', {
+  padding: '0',
+
+  backgroundColor: 'transparent',
+  position: 'absolute',
+  top: 0,
+  bottom: 0,
+  right: 0,
+  width: '100%',
+  zIndex: 100,
+})
+
 export const TimePicker = styled('div', {
   borderLeft: '1px solid $gray600',
   padding: '$6 $6 0',
   overflowY: 'scroll',
+  backgroundColor: '$gray800',
 
   position: 'absolute',
   top: 0,

@@ -90,10 +90,6 @@ export function Calendar({ onDateSelected, selectedDate }: CalendarProps) {
     },
   )
 
-  console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
-  console.log(dayjs().get('date'))
-  console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
-
   const calendarWeeks = useMemo(() => {
     if (!blockedDates) return []
     if (!availability) return []
