@@ -73,8 +73,6 @@ export default async function handler(
   })
 
   const availableTimes = possibleTimes.filter((time) => {
-    console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAA')
-    console.log(time)
     const isTimeBlocked = blockedTimes.some(
       (blockedTime) => blockedTime.date.getHours() - 3 === time, // vercel tem + 3h então tiramos 3h do blocked
     )

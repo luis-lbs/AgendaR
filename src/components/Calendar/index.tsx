@@ -76,9 +76,6 @@ export function Calendar({ onDateSelected, selectedDate }: CalendarProps) {
     },
   )
 
-  console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAA')
-  console.log(dayjs().subtract(3, 'hour').startOf('day').format('YYYY-MM-DD'))
-
   const { data: blockedDates } = useQuery<BlockedDates>(
     ['blocked-dates', currentDate.get('year'), currentDate.get('month')],
     async () => {
