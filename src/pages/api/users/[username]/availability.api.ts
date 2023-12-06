@@ -27,7 +27,7 @@ export default async function handler(
     return res.status(400).json({ message: 'User does not exist.' })
   }
 
-  const referenceDate = dayjs(String(date)).add(2, 'hour')
+  const referenceDate = dayjs(String(date)).add(3, 'hour') // vercel tem + 3h então tiramos 3h do blocked
   const isPastDate = referenceDate.endOf('day').isBefore(new Date())
 
   if (isPastDate) {
@@ -74,7 +74,7 @@ export default async function handler(
 
   const availableTimes = possibleTimes.filter((time) => {
     const isTimeBlocked = blockedTimes.some(
-      (blockedTime) => blockedTime.date.getHours() === time, // vercel tem + 3h então tiramos 3h do blocked
+      (blockedTime) => blockedTime.date.getHours() === time,
     )
 
     const isTimeInPast = referenceDate.set('hour', time).isBefore(new Date())
