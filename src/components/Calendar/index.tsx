@@ -68,13 +68,16 @@ export function Calendar({ onDateSelected, selectedDate }: CalendarProps) {
     async () => {
       const response = await api.get(`/users/${username}/availability`, {
         params: {
-          date: dayjs().format('YYYY-MM-DD'),
+          date: dayjs().subtract(3, 'hour').startOf('day').format('YYYY-MM-DD'), // subtraindo 3 horas do dia para conpensar o servidor
         },
       })
 
       return response.data
     },
   )
+
+  console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAA')
+  console.log(dayjs().subtract(3, 'hour').startOf('day').format('YYYY-MM-DD'))
 
   const { data: blockedDates } = useQuery<BlockedDates>(
     ['blocked-dates', currentDate.get('year'), currentDate.get('month')],
