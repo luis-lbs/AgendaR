@@ -66,7 +66,10 @@ export default function CalendarStep({ onSelectDateTime }: CalendarStepProps) {
       <Calendar selectedDate={selectedDate} onDateSelected={setSelectedDate} />
 
       {isDateSelected && (
-        <TimePickerContainer onClick={() => setSelectedDate(null)}>
+        <TimePickerContainer
+          isTimePickerOpen={isDateSelected}
+          onClick={() => setSelectedDate(null)}
+        >
           <TimePicker>
             <TimePickerHeader>
               {weekDay} <span>{describedDate}</span>

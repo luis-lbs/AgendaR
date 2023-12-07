@@ -32,8 +32,20 @@ export const TimePickerContainer = styled('div', {
   top: 0,
   bottom: 0,
   right: 0,
-  width: '100%',
   zIndex: 100,
+  width: '100%',
+
+  variants: {
+    isTimePickerOpen: {
+      true: {
+        maxWidth: 0,
+
+        '@media(max-width: 900px)': {
+          maxWidth: '100%',
+        },
+      },
+    },
+  },
 })
 
 export const TimePicker = styled('div', {
