@@ -46,7 +46,7 @@ export function ConfirmStep({ schedulingDate, onCancel }: ConfirmStepProps) {
       name,
       email,
       observations,
-      date: schedulingDate,
+      date: dayjs(schedulingDate).subtract(3, 'hour').toDate(),
     })
     onCancel()
   }
