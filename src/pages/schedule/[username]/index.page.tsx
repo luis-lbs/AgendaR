@@ -2,7 +2,6 @@ import { Avatar, Heading, Text } from '@ignite-ui/react'
 import { Container, UserHeader } from './styles'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import { prisma } from '@/lib/prisma'
-import CalendarStep from './ScheduleForm/CalendarStep'
 import ScheduleForm from './ScheduleForm'
 import { NextSeo } from 'next-seo'
 
