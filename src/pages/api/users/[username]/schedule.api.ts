@@ -79,10 +79,10 @@ export default async function handler(
       summary: `AgendaR: ${name}`,
       description: observations,
       start: {
-        dateTime: schedulingDate.format(),
+        dateTime: schedulingDate.add(2, 'hour').format(), // colocando mais 2 horas para compensar o servidor
       },
       end: {
-        dateTime: schedulingDate.add(1, 'hour').format(),
+        dateTime: schedulingDate.add(3, 'hour').format(),
       },
       attendees: [{ email, displayName: name }],
       conferenceData: {
