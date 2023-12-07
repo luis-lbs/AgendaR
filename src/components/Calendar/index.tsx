@@ -63,19 +63,6 @@ export function Calendar({ onDateSelected, selectedDate }: CalendarProps) {
   const router = useRouter()
   const username = router.query.username?.toString()
 
-  const { data: availability } = useQuery<Availability>(
-    ['availability'],
-    async () => {
-      const response = await api.get(`/users/${username}/availability`, {
-        params: {
-          date: dayjs().format('YYYY-MM-DD'),
-        },
-      })
-
-      return response.data
-    },
-  )
-
   const { data: blockedDates } = useQuery<BlockedDates>(
     ['blocked-dates', currentDate.get('year'), currentDate.get('month')],
     async () => {
@@ -92,7 +79,6 @@ export function Calendar({ onDateSelected, selectedDate }: CalendarProps) {
 
   const calendarWeeks = useMemo(() => {
     if (!blockedDates) return []
-    if (!availability) return []
 
     const daysInMonthArray = Array.from({
       length: currentDate.daysInMonth(),
@@ -126,11 +112,7 @@ export function Calendar({ onDateSelected, selectedDate }: CalendarProps) {
         disabled:
           date.endOf('day').isBefore(new Date()) ||
           blockedDates.blockedWeekDays.includes(date.get('day')) ||
-          blockedDates.blockedDates.includes(date.get('date')) ||
-          (date.get('date') === dayjs().get('date') &&
-            availability.availableTimes.length === 0)
-            ? true
-            : false,
+          blockedDates.blockedDates.includes(date.get('date')),
       })),
       ...nextMonthFillArray.map((date) => ({ date, disabled: true })),
     ]
