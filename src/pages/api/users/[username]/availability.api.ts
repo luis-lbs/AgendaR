@@ -74,7 +74,7 @@ export default async function handler(
 
   const availableTimes = possibleTimes.filter((time) => {
     const isTimeBlocked = blockedTimes.some(
-      (blockedTime) => blockedTime.date.getHours() - 3 === time, // no servidor da vercel tem 3 horas amais então temos que subtrair do tempo bloqueado pra ficar certinho
+      (blockedTime) => blockedTime.date.getHours() === time, // no servidor da vercel tem 3 horas amais então temos que subtrair do tempo bloqueado pra ficar certinho
     )
 
     const isTimeInPast = referenceDate.set('hour', time).isBefore(new Date())
