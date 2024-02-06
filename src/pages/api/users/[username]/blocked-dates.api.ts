@@ -20,14 +20,14 @@ export default async function handle(
     },
   })
 
-  if (!user) return res.status(404).json({ message: 'User dose not exist.' })
+  if (!user) res.status(404).json({ message: 'User dose not exist.' })
 
   const availableWeekDays = await prisma.userTimeInterval.findMany({
     select: {
       week_day: true,
     },
     where: {
-      user_id: user.id,
+      user_id: user!.id,
     },
   })
 
@@ -42,13 +42,10 @@ export default async function handle(
       EXTRACT(DAY FROM S.date) AS date,
       COUNT(S.date) AS amount,
       ((UTI.time_end_in_minutes - UTI.time_start_in_minutes) / 60) AS size
-
     FROM schedulings S
-
     LEFT JOIN user_time_intervals UTI
       ON UTI.week_day = WEEKDAY(DATE_ADD(S.date, INTERVAL 1 DAY))
-
-    WHERE S.user_id = ${user.id}
+    WHERE S.user_id = ${user!.id}
       AND DATE_FORMAT(S.date, "%Y-%m") = ${`${year}-${month}`}
     
     GROUP BY EXTRACT(DAY FROM S.date),
