@@ -27,7 +27,7 @@ export default async function handler(
     buildNextAuthOptions(req, res),
   )
 
-  if (!session) res.status(401).end()
+  if (!session) return res.status(401).end()
 
   const intervals = timeIntervalBodySchema.parse(req.body)
 
@@ -38,7 +38,7 @@ export default async function handler(
           week_day: interval.weekDay,
           time_start_in_minutes: interval.startTimeInMinutes,
           time_end_in_minutes: interval.endTimeInMinutes,
-          user_id: session!.user.id,
+          user_id: session.user.id,
         },
       })
     }),
