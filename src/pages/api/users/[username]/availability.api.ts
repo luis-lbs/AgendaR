@@ -59,10 +59,13 @@ export default async function handler(
     return res.json({ possibleTimes: [], availableTimes: [] })
   }
 
-  const { time_start_in_minutes, time_end_in_minutes } = userAvailability
+  const {
+    time_start_in_minutes: TimeStartInMinutes,
+    time_end_in_minutes: TimeEndInMinutes,
+  } = userAvailability
 
-  const startHour = time_start_in_minutes / 60
-  const endHour = time_end_in_minutes / 60
+  const startHour = TimeStartInMinutes / 60
+  const endHour = TimeEndInMinutes / 60
 
   const possibleTimes = Array.from({ length: endHour - startHour }).map(
     (_, i) => {
@@ -91,7 +94,7 @@ export default async function handler(
 
   const availableTimes = possibleTimes.filter((time) => {
     const isTimeBlocked = blockedTimes.some(
-      (blockedTime) =>
+      (blockedTime: any) =>
         blockedTime.date.getUTCHours() - timezoneOffsetInHours === time,
     )
 

@@ -20,20 +20,20 @@ export default async function handle(
     },
   })
 
-  if (!user) res.status(404).json({ message: 'User dose not exist.' })
+  if (!user) return res.status(404).json({ message: 'User dose not exist.' })
 
   const availableWeekDays = await prisma.userTimeInterval.findMany({
     select: {
       week_day: true,
     },
     where: {
-      user_id: user!.id,
+      user_id: user.id,
     },
   })
 
   const blockedWeekDays = [0, 1, 2, 3, 4, 5, 6].filter((weekDay) => {
     return !availableWeekDays.some(
-      (availableWeekDay) => availableWeekDay.week_day === weekDay,
+      (availableWeekDay: any) => availableWeekDay.week_day === weekDay,
     )
   })
 
@@ -48,7 +48,7 @@ export default async function handle(
     LEFT JOIN user_time_intervals UTI
       ON UTI.week_day = WEEKDAY(DATE_ADD(S.date, INTERVAL 1 DAY))
 
-    WHERE S.user_id = ${user!.id}
+    WHERE S.user_id = ${user.id}
       AND DATE_FORMAT(S.date, "%Y-%m") = ${`${year}-${month}`}
     
     GROUP BY EXTRACT(DAY FROM S.date),
