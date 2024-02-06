@@ -7,7 +7,7 @@ import {
   TimePickerItem,
   TimePickerList,
 } from './styles'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import dayjs from 'dayjs'
 import { api } from '@/lib/axios'
 import { useRouter } from 'next/router'
@@ -38,11 +38,11 @@ export default function CalendarStep({ onSelectDateTime }: CalendarStepProps) {
     : null
 
   const { data: availability } = useQuery<Availability>(
-    ['availability', selectedDateWithoutTime],
+    ['availability', selectedDateWhitoutTime],
     async () => {
       const response = await api.get(`/users/${username}/availability`, {
         params: {
-          date: selectedDateWithoutTime,
+          date: selectedDateWhitoutTime,
           timezoneOffset: selectedDate ? selectedDate.getTimezoneOffset() : 0,
         },
       })
@@ -51,7 +51,7 @@ export default function CalendarStep({ onSelectDateTime }: CalendarStepProps) {
     },
     {
       enabled: !!selectedDate,
-    }
+    },
   )
 
   function handleSelectTime(hour: number) {
